@@ -18,6 +18,7 @@
     "base-64": "^0.1.0",
     "expo": "~37.0.3",
     "expo-font": "~8.1.0",
+    "expo-image-manipulator": "~8.1.0",
     "expo-image-picker": "~8.1.0",
     "expo-install": "^0.0.0",
     "expo-linear-gradient": "~8.1.0",

@@ -7,7 +7,7 @@ import {decode, encode} from 'base-64'
 import { AppLoading } from 'expo';
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
-
+import { Root } from "native-base";
 if (!global.btoa) {  global.btoa = encode }
 if (!global.atob) { global.atob = decode }
 
@@ -36,7 +36,9 @@ class App extends Component {
     }
     return (
       <Provider store={store}>
+        <Root>
         <Main />
+        </Root>
       </Provider>
     );
   }

@@ -1,21 +1,25 @@
 import React, { Component } from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
-import { ListItem, Avatar } from "react-native-elements";
+import { ListItem, Avatar, Icon } from "react-native-elements";
 import { connect } from "react-redux";
 import { firebase } from "../constants/firebase";
 import { mobileData } from "../shared/aa";
 import { mobileImagesLinks } from "../shared/images";
 import { ActionSheet } from "native-base";
+import { getImage, getImageFromCamera, getImageFromGallery } from "../redux/ActionCreators/ProductActionCreator";
 const mapStateToProps = (state) => {
   return {
     user: state.user,
   };
 };
+const mapDispatchToProps = () => (dispatch) => ({
+  getImageFromGallery:() => dispatch(getImageFromGallery()),
+  getImageFromCamera:() => dispatch(getImageFromCamera())
+})
 var BUTTONS = [
-  { text: "Option 0", icon: "american-football", iconColor: "#2c8ef4" },
-  { text: "Option 1", icon: "analytics", iconColor: "#f42ced" },
-  { text: "Option 2", icon: "aperture", iconColor: "#ea943b" },
-  { text: "Delete", icon: "trash", iconColor: "#fa213b" },
+  { text: "Gallery", icon: "folder", iconColor: "#2c8ef4",size:"8" },
+  { text: "Camera", icon: "camera", iconColor: "#f42ced" },
+  { text: "Remove Profile Image", icon: "trash", iconColor: "#fa213b" },
   { text: "Cancel", icon: "close", iconColor: "#25de5b" }
 ];
 var DESTRUCTIVE_INDEX = 2;
@@ -53,21 +57,36 @@ class UserProfileView extends Component {
         <ListItem
           title={
           <Avatar size ="xlarge"
-          containerStyle = {{alignSelf:"center"}}
-            source = {require("../assets/images/like.png")}
-            avatarStyle = {{resizeMode:"contain"}}
+            rounded = {true}
+            containerStyle = {{alignSelf:"center"}}
+            source = {
+              (this.props.user.userDetail.photoUrl)?{uri:this.props.user.userDetail.photoUrl}:require("../assets/images/like.png")
+            }
+            avatarStyle = {{resizeMode:"cover"}}
             showAccessory = {true}
+            accessory = {{iconName: 'edit-2', iconType: 'feather', iconColor: '#fff'}}
             onAccessoryPress = {() => {
               ActionSheet.show(
                 {
                   options: BUTTONS,
                   cancelButtonIndex: CANCEL_INDEX,
                   destructiveButtonIndex: DESTRUCTIVE_INDEX,
-                  title: "Testing ActionSheet"
+                  title: "Choose From"
                 },
                 buttonIndex => {
                   this.setState({ clicked: BUTTONS[buttonIndex] });
-                }
+                  switch (buttonIndex) {
+                    case 0:
+                      this.props.getImageFromGallery()
+                      break;
+                    case 1:
+                      this.props.getImageFromCamera()
+                      break;
+                    default:
+                      break;
+                  }
+                },
+              
               )
             }}
           />
@@ -89,4 +108,4 @@ class UserProfileView extends Component {
     );
   }
 }
-export default connect(mapStateToProps)(UserProfileView);
+export default connect(mapStateToProps,mapDispatchToProps)(UserProfileView);

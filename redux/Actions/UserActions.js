@@ -1,4 +1,5 @@
-import { USER_SIGNUP, USER_SIGNUP_FAILED, USER_LOGIN_FAILED, USER_LOGOUT, USER_LOGIN, USER_LOADING, USER_RESET } from '../ActionTypes/UserActionTypes'
+import { USER_SIGNUP, USER_SIGNUP_FAILED, USER_LOGIN_FAILED, USER_LOGOUT, 
+    USER_LOGIN, USER_LOADING, USER_RESET ,UPDATE_USER_PROFILE_URI} from '../ActionTypes/UserActionTypes'
 
 export const Loading = () => {
     return ({ type: USER_LOADING })
@@ -24,4 +25,8 @@ export const SignUpFailed = (error) => ({
 })
 export const ResetUser = () => ({
     type: USER_RESET
+})
+export const updateProfileImageUri = (uri) => ({
+    type: UPDATE_USER_PROFILE_URI,
+    payload: uri
 })

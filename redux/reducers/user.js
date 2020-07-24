@@ -47,6 +47,11 @@ export const user = (state = {
                 errMess: null,
                 userDetail: null
             }
+        case (ActionTypes.UPDATE_USER_PROFILE_URI):
+            return {
+                ...state,
+                userDetail:{...state.userDetail,photoUrl:action.payload}
+            }
         default:
             return state;
     }
